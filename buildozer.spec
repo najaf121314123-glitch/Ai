@@ -1,67 +1,60 @@
 [app]
 
-# ==========================================
-# ۱. تنظیمات هویت برنامه
-# ==========================================
+# === شناسنامه برنامه ===
 title = Nova AI
 package.name = novaai
 package.domain = org.novaai
 version = 1.0.0
 
-# ==========================================
-# ۲. تنظیمات سورس و منابع
-# ==========================================
+# === سورس و منابع ===
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf
-source.exclude_exts = spec,md,txt,gitignore
+# شامل کردن فونت‌ها و فایل‌های پیکربندی برای پشتیبانی RTL و i18n
+source.include_exts = py,png,jpg,kv,atlas,ttf,otf,json,yaml
 
-# ==========================================
-# ۳. وابستگی‌ها (بسیار مهم برای AI)
-# ==========================================
-# requests و duckduckgo-search برای AIBrain ضروری هستند
-# certifi برای جلوگیری از خطای SSL در اندروید
-requirements = python3,kivy,requests,duckduckgo-search,certifi
+# === وابستگی‌های دقیق (برای بیلدهای تکرارپذیر در CI) ===
+# نسخه‌های پین شده از شکستن بیلد در آینده جلوگیری می‌کنند
+requirements = python3==3.11.7,kivy[base]==2.3.0,requests==2.31.0,certifi==2024.2.2,android
 
-# ==========================================
-# ۴. تنظیمات نمایش و UI
-# ==========================================
+# === تنظیمات نمایش ===
 orientation = portrait
 fullscreen = 0
 icon.filename = icon.png
-presplash.filename = presplash.png
-presplash.color = #1a1a2e
 
-# ==========================================
-# ۵. مجوزهای اندروید
-# ==========================================
-android.permissions = INTERNET, ACCESS_NETWORK_STATE, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
+# === مجوزهای اندروید ===
+android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE,ACCESS_NETWORK_STATE,FOREGROUND_SERVICE
 
-# ==========================================
-# ۶. تنظیمات کامپایل و API
-# ==========================================
+# === تنظیمات SDK/NDK ===
 android.api = 34
-android.minapi = 24
+android.minapi = 21
 android.ndk_api = 24
 android.enable_androidx = True
-android.accept_sdk_license = True
 
-# ==========================================
-# ۷. معماری و بهینه‌سازی
-# ==========================================
-# فقط arm64-v8a برای کاهش حجم APK (99% گوشی‌های جدید)
-android.archs = arm64-v8a
-android.allow_backup = False
-android.add_src =
+# === معماری (فقط arm64 برای کاهش حجم و سازگاری مدرن) ===
+android.arch = arm64-v8a
 
-# ==========================================
-# ۸. نقطه ورود
-# ==========================================
+# === نقطه ورود ===
 android.entrypoint = main.py
 
-# ==========================================
-# ۹. تنظیمات پیشرفته بیلد
-# ==========================================
-log_level = 2
-warn_on_root = 1
+# === امنیت: متغیرهای محیطی برای کلید امضا ===
+# هرگز رمز عبور را مستقیماً اینجا ننویسید
+keystore.release_path = ${KEYSTORE_PATH}
+keystore.release_user = ${KEYSTORE_USER}
+keystore.release_password = ${KEYSTORE_PASSWORD}
+keystore.release_alias = ${KEYSTORE_ALIAS}
+
+# === بهینه‌سازی‌های Buildozer/P4A برای CI ===
 p4a.bootstrap = sdl2
-p4a.local_recipes = ./recipes
+p4a.local_recipes = ./recipes/
+log_level = 2
+p4a.no_compile_pyo = True
+
+# === جلوگیری از خواب رفتن صفحه هنگام پردازش سنگین ===
+android.wakelock = True
+
+# === کامپایل و بسته‌بندی ===
+# فشرده‌سازی ETC2/ASTC برای تکسچرها (کاهش حجم APK)
+android.add_aars = 
+android.gradle_dependencies = 
+# غیرفعال کردن فرمت‌های قدیمی تکسچر
+texture_format/etc2_astc = true
+texture_format/s3tc = false
