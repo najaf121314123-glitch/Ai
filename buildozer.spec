@@ -36,7 +36,7 @@ version = 1.0.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,pyjnius,numpy,pillow,requests
+requirements = python3,kivy==2.3.0,pyjnius,numpy==1.26.4,pillow,requests
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -77,7 +77,7 @@ android.presplash_color = #FFFFFF
 #android.presplash.filename = %(source.dir)s/presplash.png
 
 # (list) Permissions
-android.permissions = INTERNET,CAMERA,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,ACCESS_NETWORK_STATE,VIBRATE
+android.permissions = INTERNET,CAMERA,ACCESS_NETWORK_STATE,VIBRATE
 
 # (list) features (adds <uses-feature> tags to manifest)
 #android.features = android.hardware.usb.host
@@ -87,6 +87,9 @@ android.api = 34
 
 # (int) Minimum API your APK / AAB will support.
 android.minapi = 24
+
+# (int) Android SDK version to use
+#android.sdk = 34
 
 # (str) Android NDK version to use
 android.ndk = 25b
@@ -152,7 +155,7 @@ android.accept_sdk_license = True
 #android.add_assets =
 
 # (list) Gradle dependencies to add
-android.gradle_dependencies = 
+#android.gradle_dependencies =
 
 # (bool) Enable AndroidX support.
 android.enable_androidx = True
@@ -223,8 +226,8 @@ log_level = 2
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1
 
-# (str) Path to build artifact storage
-# build_dir = ./.buildozer
+# (str) Path to build artifact storage, absolute or relative to spec file
+build_dir = .buildozer
 
-# (str) Path to build output storage
-# bin_dir = ./bin
+# (str) Path to build output (i.e. .apk, .aab, .ipa) storage
+bin_dir = ./bin
